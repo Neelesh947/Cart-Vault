@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Payment Status Notification</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2ff;
+      font-family: Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #fff;
+      border-radius: 24px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    /* Logo banner */
+    .logo-banner {
+      width: 100%;
+      height: 120px;
+      background: #f3f2f8;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      padding: 1px 0;
+      box-sizing: border-box;
+    }
+    .logo-banner img {
+      max-height: 100%;
+      max-width: 80%;
+      object-fit: contain;
+      display: block;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: 24px;
+      font-weight: 700;
+      text-align: center;
+      color: #4a60d5; /* primary brand blue */
+    }
+    .status-success {
+      color: #28a745; /* green */
+    }
+    .status-failed {
+      color: #d9534f; /* red */
+    }
+    .greeting {
+      font-size: 16px;
+      color: #444;
+      padding: 0 30px 20px;
+      text-align: center;
+    }
+    .details {
+      padding: 0 30px 30px;
+      color: #555;
+      font-size: 16px;
+      text-align: center;
+    }
+    .support-link {
+      display: inline-block;
+      margin-top: 25px;
+      font-weight: 600;
+      color: #4a60d5;
+      text-decoration: none;
+      font-size: 16px;
+    }
+    .footer {
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #eee;
+    }
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 20px;
+      }
+      .logo-banner {
+        height: 90px;
+        padding: 5px 0;
+      }
+      .logo-banner img {
+        max-width: 90%;
+      }
+      .greeting, .details {
+        padding: 0 15px 20px;
+      }
+      .support-link {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- Logo banner -->
+    <div class="logo-banner">
+      <img src="https://i.postimg.cc/43WZc8zC/cart-Vault.png" alt="eKart Logo" />
+    </div>
+
+    <!-- Main Title -->
+    <h1 class="{{status_class}}">{{status_title}}</h1>
+
+    <!-- Greeting -->
+    <div class="greeting">
+      Hi <strong>{{customer_name}}</strong>,
+    </div>
+
+    <!-- Payment Details -->
+    <div class="details">
+      <p>{{status_message}}</p>
+
+      <!-- Contact support -->
+      <a href="{{support_link}}" class="support-link">Contact Support</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      &copy; {{current_year}} eKart · All rights reserved
+    </div>
+
+  </div>
+
+</body>
+</html>

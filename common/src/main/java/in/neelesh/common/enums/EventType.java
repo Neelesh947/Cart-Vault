@@ -1,0 +1,5 @@
+package in.neelesh.common.enums;
+
+public enum EventType {
+	USER_REGISTERED, ACCOUNT_ACTIVATION, ACCOUNT_CREATION, PASSWORD_RESET, ORDER_CONFIRMED, PAYMENT_FAILED
+}

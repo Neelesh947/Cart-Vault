@@ -1,0 +1,11 @@
+<infinispan xmlns="urn:infinispan:config:13.0">
+  <cache-container name="default">
+    
+    <!-- ✅ Define template -->
+    <distributed-cache-configuration name="otp-template">
+      <expiration lifespan="300000"/>
+      <memory max-count="10000" when-full="REMOVE"/>
+    </distributed-cache-configuration>
+
+  </cache-container>
+</infinispan>

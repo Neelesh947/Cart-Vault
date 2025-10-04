@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: notification-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3309/notification
+    username: notification
+    password: notification
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # 🔁 Creates or updates tables automatically
+    show-sql: true       # 🧾 Prints SQL queries to console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # 🧠 Important for MySQL 8 compatibility
+
+  mail:
+    host: localhost
+    port: 1025
+    username: ""  # Empty string instead of null
+    password: ""  # Empty string instead of null
+    properties:
+      mail:
+        smtp:
+          auth: false
+          starttls:
+            enable: false
+
+server:
+  port: 1235
+
+springdoc:
+  default-produces-media-type: application/json
+
+sender:
+  information:
+    name: no-reply@cartvault.io

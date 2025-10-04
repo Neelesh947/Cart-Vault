@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: auth-proxy
+
+  kafka:
+    bootstrap-servers: localhost:9092
+
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.trusted.packages: "*"  # Trust all packages for JSON serialization
+      acks: all                          # Wait for full commit of messages
+      retries: 3                        # Retry attempts if send fails
+      batch-size: 16384                 # Batch size in bytes
+      linger-ms: 1                     # Delay to wait for batching
+      buffer-memory: 33554432           # Total memory used by producer for buffering
+
+    consumer:
+      group-id: auth-proxy-group        # Consumer group id
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"  # Trust all packages for JSON deserialization
+      auto-offset-reset: earliest       # From where to start if no offset exists
+      enable-auto-commit: false         # Disable auto commit for manual control
+
+    listener:
+      concurrency: 3                    # Number of consumer threads
+      ack-mode: manual                 # Manual ack mode for consumer listener
+
+server:
+  port: 1234
+
+springdoc:
+  default-produces-media-type: application/json
+
+keycloak:
+  resource: secureShopping
+  credentials:
+    secret: lTxEw9FbaCeBoYThvx3CHXF97QICE2o1
+  token-url: http://localhost:8080/realms/{0}/protocol/openid-connect/token
+  admin-client: admin-cli
+  admin-credentials:
+    username: admin
+    password: admin
+  create-user-url: http://localhost:8080/admin/realms/{0}/users
+  get-userid-by-username-url: http://localhost:8080/admin/realms/{0}/users?username={1}
+  get-role-by-roleName-url: http://localhost:8080/admin/realms/{0}/roles/{1}
+  assign-role-url: http://localhost:8080/admin/realms/{0}/users/{1}/role-mappings/realm
+  enable-keycloak-user-url: http://localhost:8080/admin/realms/{0}/users/{1}
+  logout-user-url: http://localhost:8080/admin/realms/{0}/users/{1}/logout
