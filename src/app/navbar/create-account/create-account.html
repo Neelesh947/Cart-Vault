@@ -1,0 +1,169 @@
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+  <div class="card shadow-sm p-4" style="max-width: 500px; width: 100%;">
+    <h3 class="text-center mb-4">Create User</h3>
+
+    <form (ngSubmit)="onRegister()" #registerForm="ngForm" novalidate>
+      
+      <!-- Username -->
+      <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-control"
+          [(ngModel)]="user.username"
+          required
+          #username="ngModel"
+          placeholder="Enter username"
+        />
+        <div *ngIf="username.invalid && (username.dirty || username.touched)" class="text-danger small">
+          Username is required.
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          class="form-control"
+          [(ngModel)]="user.email"
+          required
+          email
+          #email="ngModel"
+          placeholder="Enter email"
+        />
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class="text-danger small">
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+          <div *ngIf="email.errors?.['email']">Invalid email format.</div>
+        </div>
+      </div>
+
+      <!-- First Name -->
+      <div class="mb-3">
+        <label for="firstName" class="form-label">First Name</label>
+        <input
+          type="text"
+          id="firstName"
+          name="firstName"
+          class="form-control"
+          [(ngModel)]="user.firstName"
+          required
+          #firstName="ngModel"
+          placeholder="Enter first name"
+        />
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)" class="text-danger small">
+          First name is required.
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="mb-3">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input
+          type="text"
+          id="lastName"
+          name="lastName"
+          class="form-control"
+          [(ngModel)]="user.lastName"
+          required
+          #lastName="ngModel"
+          placeholder="Enter last name"
+        />
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)" class="text-danger small">
+          Last name is required.
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="user.password"
+          required
+          minlength="6"
+          #password="ngModel"
+          placeholder="Enter password"
+        />
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="text-danger small">
+          <div *ngIf="password.errors?.['required']">Password is required.</div>
+          <div *ngIf="password.errors?.['minlength']">Password must be at least 6 characters.</div>
+        </div>
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          class="form-control"
+          [(ngModel)]="confirmPassword"
+          required
+          #confirmPasswordModel="ngModel"
+          placeholder="Confirm your password"
+        />
+        <div
+          *ngIf="(confirmPasswordModel.dirty || confirmPasswordModel.touched) && confirmPassword !== user.password"
+          class="text-danger small"
+        >
+          Passwords do not match.
+        </div>
+      </div>
+
+      <!-- User Type -->
+      <div class="mb-3">
+        <label class="form-label">User Type</label>
+        <div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="customer"
+              name="userType"
+              [(ngModel)]="userType"
+              value="customer"
+              required
+            />
+            <label class="form-check-label" for="customer">Customer</label>
+          </div>
+
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              id="vendor"
+              name="userType"
+              [(ngModel)]="userType"
+              value="vendor"
+            />
+            <label class="form-check-label" for="vendor">Vendor</label>
+          </div>
+        </div>
+        <div *ngIf="!userType && registerForm.submitted" class="text-danger small">
+          Please select user type.
+        </div>
+      </div>
+
+      <!-- Register Button -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="
+          registerForm.invalid ||
+          confirmPassword !== user.password
+        "
+      >
+        Register
+      </button>
+    </form>
+  </div>
+</div>

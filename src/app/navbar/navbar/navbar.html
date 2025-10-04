@@ -1,0 +1,79 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm py-3">
+  <div class="container">
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" routerLink="/">
+      <img src="https://i.postimg.cc/43WZc8zC/cart-Vault.png" alt="Logo" height="40" class="me-2">
+    </a>
+
+    <!-- Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+
+      <!-- Left Nav -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a></li>
+
+        <!-- Common -->
+        <li class="nav-item"><a class="nav-link" routerLink="/products">Products</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/categories">Categories</a></li>
+
+        <!-- Customer-only -->
+        <ng-container *ngIf="role === 'customer'">
+          <li class="nav-item"><a class="nav-link" routerLink="/orders">My Orders</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/profile">Profile</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/settings">Settings</a></li>
+        </ng-container>
+
+        <!-- Vendor-only -->
+        <ng-container *ngIf="role === 'vendor'">
+          <li class="nav-item"><a class="nav-link" routerLink="/vendor-dashboard">Vendor Dashboard</a></li>
+        </ng-container>
+
+        <!-- Super Admin-only -->
+        <ng-container *ngIf="role === 'super_admin'">
+          <li class="nav-item"><a class="nav-link" routerLink="/users">Users</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/admin">Admin Panel</a></li>
+        </ng-container>
+      </ul>
+
+      <!-- Center Welcome -->
+      <div *ngIf="isLoggedIn" class="mx-auto text-primary fw-semibold text-nowrap">
+        Welcome, {{ username }}!
+      </div>
+
+      <!-- Right Side: Search / Cart / Auth -->
+      <div class="d-flex align-items-center gap-3 ms-auto">
+
+        <!-- Search -->
+        <form class="d-flex me-2" role="search">
+          <input class="form-control rounded-pill px-3" type="search" placeholder="Search products...">
+        </form>
+
+        <!-- Cart (customer only) -->
+        <a *ngIf="isLoggedIn && role === 'customer'" class="nav-link position-relative" routerLink="/cart">
+          <i class="fas fa-shopping-cart fs-5 text-secondary"></i>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ cartItemCount }}
+          </span>
+        </a>
+
+        <!-- Auth -->
+        <ng-container *ngIf="!isLoggedIn; else logoutBlock">
+          <a class="btn btn-outline-primary rounded-pill px-3 py-1" routerLink="/login">
+            <i class="fas fa-user me-1"></i> Login
+          </a>
+        </ng-container>
+
+        <ng-template #logoutBlock>
+          <button class="btn btn-outline-danger rounded-pill px-3 py-1" (click)="logout()">
+            <i class="fas fa-sign-out-alt me-1"></i> Logout
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</nav>
