@@ -20,4 +20,8 @@ public class Brand extends BaseEntity{
 
     @OneToMany(mappedBy = "brand")
     private List<Product> products = new ArrayList<>();
+    
+    public Brand(String id) {
+    	this.setId(id);
+    }
 }

@@ -42,6 +42,7 @@ in\neelesh\common\entity\Product$ProductBuilder.class
 in\neelesh\common\enums\NotificationStatus.class
 in\neelesh\common\enums\NotificationChannel.class
 in\neelesh\common\dto\ErrorResponseDto.class
+in\neelesh\common\enums\EmailTemplateName.class
 in\neelesh\common\dto\KeycloakuserDto$KeycloakuserDtoBuilder.class
 in\neelesh\common\enums\ProductStatus.class
 in\neelesh\common\entity\Category.class
