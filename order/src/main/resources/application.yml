@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: order-service
+
+  datasource:
+    url: jdbc:mysql://localhost:3308/orders
+    username: order
+    password: order
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # 🔁 Creates or updates tables automatically
+    show-sql: true       # 🧾 Prints SQL queries to console
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect  # 🧠 Important for MySQL 8 compatibility
+
+server:
+  port: 1237
+
+keycloak:
+  initial:
+    jwks:
+      url: http://localhost:8080/realms/
+  final:
+    jwks:
+      url: /protocol/openid-connect/certs

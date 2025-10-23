@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.apache.logging.log4j.util.InternalException;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -303,6 +304,29 @@ public class KeycloakServiceImpl implements KeycloakService {
 			throw new RuntimeException("Error during logout user: " + e.getResponseBodyAsString(), e);
 		} catch (Exception e) {
 			throw new RuntimeException("Unexpected error during logout user", e);
+		}
+	}
+
+	public KeycloakuserDto getKeycloakUserById(String userId, String realm) {
+		ResponseEntity<KeycloakTokenResponseDto> accessTokenResponse = getAdminTokenFromkeycloak();
+		if (!accessTokenResponse.getStatusCode().is2xxSuccessful() || accessTokenResponse.getBody() == null) {
+			throw new IllegalStateException("Unable to retrieve admin token from Keycloak");
+		}
+
+		String token = accessTokenResponse.getBody().getAccessToken();
+		String url = MessageFormat.format(keycloakConfig.getKeycloakUserById(), realm, userId);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setBearerAuth(token);
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+		HttpEntity<Void> request = new HttpEntity<>(headers);
+
+		try {
+			ResponseEntity<KeycloakuserDto> response = restTemplate.exchange(url, HttpMethod.GET, request,
+					KeycloakuserDto.class);
+			return response.getBody();
+		} catch (Exception e) {
+			throw new InternalException("Some exception occured");
 		}
 	}
 }

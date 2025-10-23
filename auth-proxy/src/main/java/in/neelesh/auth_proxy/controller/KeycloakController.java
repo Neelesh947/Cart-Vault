@@ -2,6 +2,7 @@ package in.neelesh.auth_proxy.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import in.neelesh.common.dto.KeycloakTokenResponseDto;
 import in.neelesh.common.dto.KeycloakuserDto;
 import in.neelesh.common.dto.UserCredentialsDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -60,6 +62,17 @@ public class KeycloakController {
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
 					.body("Failed to logout user: " + e.getMessage());
+		}
+	}
+	
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<?> getKeycloakUserById(@NotBlank(message = "User Id must not be emtpty or blank") @PathVariable String userId,
+			@NotBlank(message = "Realm must not be empty or blank") @PathVariable String realm){
+		try {
+			KeycloakuserDto getUser = keycloakService.getKeycloakUserById(userId, realm);
+			return ResponseEntity.status(HttpStatus.OK).body(getUser);
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 }

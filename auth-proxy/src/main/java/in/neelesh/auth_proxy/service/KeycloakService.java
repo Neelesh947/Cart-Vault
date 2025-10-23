@@ -13,5 +13,7 @@ public interface KeycloakService {
 	public void verifyOTPandEnableUser(String otp, String userId, String realm);
 	
 	public void logoutUser(String userId, String realm);
+	
+	public KeycloakuserDto getKeycloakUserById(String userId, String realm);
 
 }

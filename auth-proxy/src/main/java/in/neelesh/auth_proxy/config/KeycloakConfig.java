@@ -48,4 +48,7 @@ public class KeycloakConfig {
 
 	@Value("${keycloak.logout-user-url}")
 	private String logoutUserURL;
+	
+	@Value("${keycloak.get-user-by-id}")
+	private String KeycloakUserById;
 }

@@ -31,6 +31,8 @@ public class User extends BaseEntity {
 	private String email;
 
 	private String phone;
+	
+	private String userId;
 
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Address> addresses = new ArrayList<>();
