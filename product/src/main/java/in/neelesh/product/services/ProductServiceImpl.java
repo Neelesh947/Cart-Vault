@@ -170,4 +170,12 @@ public class ProductServiceImpl implements ProductService {
 				.productStock(inventory != null ? inventory.getStock() : null)
 				.warehouseName(inventory != null ? inventory.getWarehouse() : null).build();
 	}
+
+	@Override
+	public BigDecimal getProductPriceByProductId(String productId) {
+		Product product = productRepository.findById(productId)
+				.orElseThrow(() -> new EntityNotFoundException("Product not found with id " + productId));
+		BigDecimal price = product.getPrice();
+		return price;
+	}
 }

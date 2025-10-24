@@ -104,4 +104,10 @@ public class ProductController {
 		productService.updateProductStock(id, quantityChange, userId);
 		return ResponseEntity.noContent().build();
 	}
+	
+	@GetMapping("/getProductPrice/{productId}")
+	public ResponseEntity<BigDecimal> getProductPrice(@PathVariable String productId){
+		BigDecimal price = productService.getProductPriceByProductId(productId);
+		return ResponseEntity.ok(price);
+	}
 }

@@ -1,5 +1,6 @@
 package in.neelesh.product.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import in.neelesh.product.dto.ProductRequest;
@@ -28,4 +29,6 @@ public interface ProductService {
 	void updateProductPrice(String id, java.math.BigDecimal newPrice, String userId);
 
 	void updateProductStock(String productId, Integer quantityChange, String userId);
+
+	BigDecimal getProductPriceByProductId(String productId);
 }

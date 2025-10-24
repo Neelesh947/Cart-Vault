@@ -28,9 +28,7 @@ public class OrderItem extends BaseEntity{
     @JoinColumn(name = "order_id", nullable = false)
     private Order order;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", nullable = false)
-    private Product product;
+    private String productId;
 
     private Integer quantity;
     
