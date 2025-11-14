@@ -15,7 +15,7 @@
 
       <!-- Left Nav -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="" routerLinkActive="active">Home</a></li>
 
         <!-- Common -->
         <li class="nav-item"><a class="nav-link" routerLink="/products">Products</a></li>
@@ -54,7 +54,7 @@
         </form>
 
         <!-- Cart (customer only) -->
-        <a *ngIf="isLoggedIn && role === 'customer'" class="nav-link position-relative" routerLink="/cart">
+        <a *ngIf="isLoggedIn && role === 'customer'" class="nav-link position-relative" (click)="goToCart()">
           <i class="fas fa-shopping-cart fs-5 text-secondary"></i>
           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
             {{ cartItemCount }}

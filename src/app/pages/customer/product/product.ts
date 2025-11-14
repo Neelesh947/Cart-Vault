@@ -1,17 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProductResponseDto } from '../../../services/model/product/product-response-dto';
 import { ProductServices } from '../../../services/product/product-services';
 import { CartServices } from '../../../services/cart/cart-services';
-import { Router } from '@angular/router';
 import { TokenService } from '../../../services/auth-proxy/token-service';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-customer-home-page',
+  selector: 'app-product',
   standalone: false,
-  templateUrl: './customer-home-page.html',
-  styleUrl: './customer-home-page.css'
+  templateUrl: './product.html',
+  styleUrl: './product.css'
 })
-export class CustomerHomePage implements OnInit {
+export class Product {
 
   products: ProductResponseDto[] = [];
   isLoading: boolean = true;
@@ -60,7 +60,7 @@ export class CustomerHomePage implements OnInit {
       error: (err) => {
         console.error('Error adding to cart', err);
         this.token.clear();
-        this.router.navigate(['login']);        
+        this.router.navigate(['login']);
       }
     })
   }

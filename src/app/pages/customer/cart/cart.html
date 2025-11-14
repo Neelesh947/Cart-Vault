@@ -1,0 +1,112 @@
+<div class="container my-5" *ngIf="cartResponse.cartItems.length > 0; else emptyCart">
+  <h2 class="mb-4">Your Cart</h2>
+
+  <!-- Cart Table -->
+  <div class="table-responsive shadow-sm rounded bg-white p-3 mb-4">
+    <table class="table align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>Product</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Total</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of productResponse; let i = index">
+          <td class="d-flex align-items-center gap-3">
+            <img [src]="item.imageUrl || 'https://via.placeholder.com/60'" 
+                 alt="Product" width="60" class="rounded">
+            <div>
+              <p class="mb-0 fw-bold">{{ item.brandName }}</p>
+              <small class="text-muted">{{ item.categoryName }}</small>
+            </div>
+          </td>
+          <td>Rs {{ item.price }}</td>
+          <td>
+            <div class="d-flex align-items-center">
+              <button class="btn btn-sm btn-outline-secondary me-2" (click)="decreaseQuantity(i)">
+                <i class="fas fa-minus"></i>
+              </button>
+              <span>{{ cartResponse.cartItems[i].quantity }}</span>
+              <button class="btn btn-sm btn-outline-secondary ms-2" (click)="increaseQuantity(i)">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </td>
+          <!-- <td>\${{ (item.productDetails?.price * item.quantity) | number:'1.2-2' }}</td> -->
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="removeItem(i)">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Cart Summary & Checkout -->
+  <div class="row g-4">
+    <!-- Address Section -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm p-3">
+        <h5 class="mb-3">Shipping Address</h5>
+        <form>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Full Name" [(ngModel)]="address.name" name="name">
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="Street Address" [(ngModel)]="address.street" name="street">
+          </div>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="City" [(ngModel)]="address.city" name="city">
+          </div>
+          <div class="mb-3 d-flex gap-2">
+            <input type="text" class="form-control" placeholder="State" [(ngModel)]="address.state" name="state">
+            <input type="text" class="form-control" placeholder="ZIP" [(ngModel)]="address.zip" name="zip">
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Payment & Summary Section -->
+    <div class="col-lg-6">
+      <div class="card shadow-sm p-3">
+        <h5 class="mb-3">Order Summary</h5>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Subtotal</span>
+          <span>Rs. {{ getSubtotal()  }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+          <span>Shipping</span>
+          <span>Rs. {{ shipping }}</span>
+        </div>
+        <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
+          <span>Total</span>
+          <span>Rs. {{ (getSubtotal() + shipping) | number:'1.2-2' }}</span>
+        </div>
+
+        <h5 class="mb-3">Payment Method</h5>
+        <div class="mb-3">
+          <select class="form-select" [(ngModel)]="paymentMethod" name="paymentMethod">
+            <option value="card">Credit/Debit Card</option>
+            <option value="paypal">PayPal</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary w-100" (click)="checkout()">Proceed to Payment</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Empty Cart Message -->
+<ng-template #emptyCart>
+  <div class="text-center py-5">
+    <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
+    <h3 class="text-muted">Your cart is empty</h3>
+    <p class="text-secondary">Add products to your cart to get started!</p>
+  </div>
+</ng-template>

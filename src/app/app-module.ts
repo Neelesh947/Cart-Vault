@@ -11,6 +11,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { JWT_OPTIONS, JwtHelperService } from '@auth0/angular-jwt';
 import { VerifyOtp } from './navbar/verify-otp/verify-otp';
 import { CustomerHomePage } from './pages/customer/customer-home-page/customer-home-page';
+import { Product } from './pages/customer/product/product';
+import { CustomerHomeHeroComponent } from './pages/customer/customer-home-hero-component/customer-home-hero-component';
+import { Cart } from './pages/customer/cart/cart';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { CustomerHomePage } from './pages/customer/customer-home-page/customer-h
     Login,
     CreateAccount,
     VerifyOtp,
-    CustomerHomePage
+    CustomerHomePage,
+    Cart,
+    Product,
+    CustomerHomeHeroComponent
   ],
   imports: [
     BrowserModule,

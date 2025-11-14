@@ -1,0 +1,26 @@
+.card {
+  border-radius: 12px;
+}
+
+.table img {
+  object-fit: cover;
+}
+
+.btn-outline-secondary {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .table-responsive table {
+    font-size: 0.9rem;
+  }
+
+  .card h5 {
+    font-size: 1rem;
+  }
+}
