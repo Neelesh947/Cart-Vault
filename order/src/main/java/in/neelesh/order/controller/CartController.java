@@ -23,7 +23,7 @@ public class CartController {
 
 	private final CartService cartService;
 
-	@PostMapping("/{userId}/add")
+	@PostMapping("/add")
 	public ResponseEntity<CartResponseDto> addToCart(@RequestParam String productId, @RequestParam Integer quantity,
 			@PathVariable String realm) {
 		String userId = SecurityUtils.getCurrentUserIdSupplier.get();
@@ -58,5 +58,12 @@ public class CartController {
 		String userId = SecurityUtils.getCurrentUserIdSupplier.get();
 		CartResponseDto response = cartService.updateProductQuantity(userId, productId, quantity);
 		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping("/cartItemCount")
+	public ResponseEntity<Integer> getCartItemCountForCart(){
+		String userId = SecurityUtils.getCurrentUserIdSupplier.get();
+		Integer count = cartService.getCartItemCountForCart(userId);
+		return ResponseEntity.ok(count);
 	}
 }

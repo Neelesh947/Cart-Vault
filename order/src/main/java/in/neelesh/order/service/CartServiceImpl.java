@@ -172,4 +172,14 @@ public class CartServiceImpl implements CartService {
 		});
 		return mapToDto(cart);
 	}
+
+	@Override
+	public Integer getCartItemCountForCart(String userId) {
+		Optional<Cart> optionalCart = cartRepository.findByUser_UserId(userId);
+		if (optionalCart.isEmpty()) {
+			throw new IllegalArgumentException("No active cart found for userId: " + userId);
+		}
+		Cart cart = optionalCart.get();
+		return cart.getCartItems() != null ? cart.getCartItems().stream().mapToInt(CartItem::getQuantity).sum() : 0;
+	}
 }

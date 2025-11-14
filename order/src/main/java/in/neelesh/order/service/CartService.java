@@ -13,4 +13,6 @@ public interface CartService {
 	public CartResponseDto clearCart(String userId);
 	
 	public CartResponseDto updateProductQuantity(String userId, String productId, Integer quantity);
+
+	Integer getCartItemCountForCart(String userId);
 }
