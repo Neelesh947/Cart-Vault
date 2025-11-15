@@ -1,4 +1,5 @@
 <div class="container my-5" *ngIf="cartResponse.cartItems.length > 0; else emptyCart">
+  
   <h2 class="mb-4">Your Cart</h2>
 
   <!-- Cart Table -->
@@ -35,7 +36,9 @@
               </button>
             </div>
           </td>
-          <!-- <td>\${{ (item.productDetails?.price * item.quantity) | number:'1.2-2' }}</td> -->
+          <td>
+            Rs {{ cartResponse.cartItems[i].quantity * item.price }}
+          </td>
           <td>
             <button class="btn btn-sm btn-danger" (click)="removeItem(i)">
               <i class="fas fa-trash-alt"></i>
@@ -48,25 +51,90 @@
 
   <!-- Cart Summary & Checkout -->
   <div class="row g-4">
+
     <!-- Address Section -->
     <div class="col-lg-6">
       <div class="card shadow-sm p-3">
+
         <h5 class="mb-3">Shipping Address</h5>
-        <form>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Full Name" [(ngModel)]="address.name" name="name">
+
+        <!-- Show existing addresses -->
+        <div *ngIf="addressResponse && addressResponse.length > 0; else addressFormTemplate">
+
+          <div *ngFor="let addr of addressResponse" 
+               class="p-3 border rounded mb-2 address-item"
+               [ngClass]="{'bg-light border-primary': selectedAddress?.id === addr.id}"
+               (click)="selectAddress(addr)"
+               style="cursor:pointer">
+
+            <strong>{{ addr.type }}</strong><br>
+            {{ addr.fullName }}, 
+            {{ addr.line1 }}, {{ addr.line2 }}<br>
+            {{ addr.city }}, {{ addr.state }},
+            {{ addr.country }} - {{ addr.postalCode }}
+
+            <button class="btn btn-sm btn-outline-secondary float-end"
+                    (click)="editAddress(addr); $event.stopPropagation()">
+              Edit
+            </button>
+
           </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="Street Address" [(ngModel)]="address.street" name="street">
-          </div>
-          <div class="mb-3">
-            <input type="text" class="form-control" placeholder="City" [(ngModel)]="address.city" name="city">
-          </div>
-          <div class="mb-3 d-flex gap-2">
-            <input type="text" class="form-control" placeholder="State" [(ngModel)]="address.state" name="state">
-            <input type="text" class="form-control" placeholder="ZIP" [(ngModel)]="address.zip" name="zip">
-          </div>
-        </form>
+
+          <button *ngIf="addressResponse.length < 3"
+                  class="btn btn-outline-primary btn-sm mt-3"
+                  (click)="startAddressCreation()">
+            + Add New Address
+          </button>
+
+        </div>
+
+        <!-- Address Form -->
+        <ng-template #addressFormTemplate>
+          <form (ngSubmit)="addOrUpdateAddress()" class="mt-2">
+
+            <label class="form-label fw-semibold">Address Type</label>
+            <select class="form-select mb-3" [(ngModel)]="addressRequest.type" name="type">
+              <option value="Home">Home</option>
+              <option value="Shipping">Shipping</option>
+              <option value="Other">Other</option>
+            </select>
+
+            <label class="form-label fw-semibold">Full Name</label>
+            <input type="text" class="form-control mb-3" placeholder="Full Name"
+                   [(ngModel)]="addressRequest.fullName" name="fullName" required>
+
+            <label class="form-label fw-semibold">Street Address</label>
+            <input type="text" class="form-control mb-3" placeholder="Street Address"
+                   [(ngModel)]="addressRequest.line1" name="line1" required>
+
+            <label class="form-label fw-semibold">Address Line 2</label>
+            <input type="text" class="form-control mb-3" placeholder="Apartment, Suite, etc. (optional)"
+                   [(ngModel)]="addressRequest.line2" name="line2">
+
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">City</label>
+                <input type="text" class="form-control" [(ngModel)]="addressRequest.city" name="city" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">State</label>
+                <input type="text" class="form-control" [(ngModel)]="addressRequest.state" name="state" required>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label fw-semibold">Postal Code</label>
+                <input type="text" class="form-control" [(ngModel)]="addressRequest.postalCode" name="postalCode" required>
+              </div>
+            </div>
+
+            <label class="form-label fw-semibold">Country</label>
+            <input type="text" class="form-control mb-3" [(ngModel)]="addressRequest.country" name="country" required>
+
+            <button type="submit" class="btn btn-primary btn-sm">Save Address</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm ms-2" (click)="cancelAddressForm()">Cancel</button>
+
+          </form>
+        </ng-template>
+
       </div>
     </div>
 
@@ -74,35 +142,37 @@
     <div class="col-lg-6">
       <div class="card shadow-sm p-3">
         <h5 class="mb-3">Order Summary</h5>
+
         <div class="d-flex justify-content-between mb-2">
           <span>Subtotal</span>
-          <span>Rs. {{ getSubtotal()  }}</span>
+          <span>Rs. {{ getSubtotal() }}</span>
         </div>
+
         <div class="d-flex justify-content-between mb-2">
           <span>Shipping</span>
           <span>Rs. {{ shipping }}</span>
         </div>
+
         <div class="d-flex justify-content-between fw-bold fs-5 mb-3">
           <span>Total</span>
           <span>Rs. {{ (getSubtotal() + shipping) | number:'1.2-2' }}</span>
         </div>
 
         <h5 class="mb-3">Payment Method</h5>
-        <div class="mb-3">
-          <select class="form-select" [(ngModel)]="paymentMethod" name="paymentMethod">
-            <option value="card">Credit/Debit Card</option>
-            <option value="paypal">PayPal</option>
-            <option value="cod">Cash on Delivery</option>
-          </select>
-        </div>
+        <select class="form-select mb-3" [(ngModel)]="paymentMethod" name="paymentMethod">
+          <option value="card">Credit/Debit Card</option>
+          <option value="paypal">PayPal</option>
+          <option value="cod">Cash on Delivery</option>
+        </select>
 
         <button class="btn btn-primary w-100" (click)="checkout()">Proceed to Payment</button>
       </div>
     </div>
+
   </div>
 </div>
 
-<!-- Empty Cart Message -->
+<!-- Empty Cart Template -->
 <ng-template #emptyCart>
   <div class="text-center py-5">
     <i class="fas fa-shopping-cart fa-4x text-muted mb-3"></i>
